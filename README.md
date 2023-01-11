@@ -4,7 +4,9 @@ A new Flutter project.
 
 ## Progress
 
-# Rabu: feature (List All Animals), init, install, how to fetch api -> DONE USING STATEFULL WIDGET and HTTPS REST API
+## Rabu: feature (List All Animals), init, install, how to fetch api -> DONE USING STATEFULL WIDGET and HTTPS REST API
+![image](https://user-images.githubusercontent.com/54411969/211836143-1a98ae2c-b8b3-4310-a764-86ef48f2eab7.png)
+
 
 Kamis: (Detail Animals), slicing, fetch api
 
