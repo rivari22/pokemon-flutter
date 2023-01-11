@@ -28,28 +28,45 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('List Pokemon'),
+      appBar: AppBar(
+        title: const Text('List Pokemon'),
+      ),
+      body: GridView.builder(
+        itemCount: dataPokemon.length,
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+        itemBuilder: (context, index) => Card(
+            semanticContainer: true,
+            borderOnForeground: true,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Image.network(
+                  "$urlImagesPokemon${dataPokemon[index].id}.png",
+                  width: 60,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      dataPokemon[index].name,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15.0),
+                    ),
+                    Text(
+                      "0${dataPokemon[index].id}",
+                      style: const TextStyle(
+                          color: Colors.black54, fontWeight: FontWeight.w300),
+                    )
+                  ],
+                )
+              ],
+            )),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 2,
         ),
-        body: GridView.builder(
-          itemCount: dataPokemon.length,
-          itemBuilder: (context, index) => Card(
-              semanticContainer: true,
-              borderOnForeground: true,
-              child: Column(
-                children: [
-                  Image.network(
-                    "$urlImagesPokemon${dataPokemon[index].id}.png",
-                    width: 50,
-                  ),
-                  Text(dataPokemon[index].name),
-                  Text("0${dataPokemon[index].id}"),
-                ],
-              )),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 2,
-          ),
-        ));
+      ),
+    );
   }
 }
