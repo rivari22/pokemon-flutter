@@ -7,7 +7,7 @@ A new Flutter project.
 ## Rabu: feature (List All Animals), init, install, how to fetch api -> DONE USING STATEFULL WIDGET and HTTPS REST API
 ![image](https://user-images.githubusercontent.com/54411969/211836143-1a98ae2c-b8b3-4310-a764-86ef48f2eab7.png)
 
-
+on hold krn ngerjain project react native dulu
 Kamis: (Detail Animals), slicing, fetch api
 
 Jumat: feature (Catch Animals with random function logic), (List All Animals yang dimiliki) 
