@@ -1,29 +1,44 @@
-class PokemonInfoPage {
+class PokemonListModel {
   final int count;
   final String? next;
   final String? previous;
 
-  const PokemonInfoPage({required this.count, this.next, this.previous});
+  // list
+  final List<ListPokemonModel> listPokemon;
 
-  factory PokemonInfoPage.fromJson(Map<String, dynamic> json) {
-    return PokemonInfoPage(
-        count: json['count'], next: json['next'], previous: json['previous']);
+  const PokemonListModel(
+      {required this.count,
+      this.next,
+      this.previous,
+      required this.listPokemon});
+
+  factory PokemonListModel.fromJson(Map<String, dynamic> json) {
+    return PokemonListModel(
+        count: json['count'],
+        next: json['next'],
+        previous: json['previous'],
+        listPokemon: List<Map<String, dynamic>>.from(json['results'])
+            .map((e) => ListPokemonModel.fromJson(e))
+            .toList());
   }
 }
 
-class ListPokemon {
+class ListPokemonModel {
   final String name;
   final String url;
   final String id;
+  final bool? isCaught;
 
-  ListPokemon({required this.name, required this.url, required this.id});
+  ListPokemonModel(
+      {required this.name, required this.url, required this.id, this.isCaught});
 
-  factory ListPokemon.fromJson(Map<String, dynamic> json) {
+  factory ListPokemonModel.fromJson(Map<String, dynamic> json) {
     var splitItem = json['url'].toString().split("/");
-    return ListPokemon(
+    return ListPokemonModel(
         name: json['name'],
         url: json['url'],
-        id: splitItem[splitItem.length - 2]);
+        id: splitItem[splitItem.length - 2],
+        isCaught: false);
   }
 
   Map<String, dynamic> toJson() {
