@@ -1,42 +1,48 @@
-class InfoPokemonDetail {
+class PokemonDetailModel {
   final int id;
   final String name;
   final int height;
   final int weight;
   final int baseExperience;
+  final String spriteBackDefault;
+  final String spriteFrontDefault;
 
   // list
   final List<Abilities> abilities;
   final List<Types> types;
   final List<Stats> stats;
 
-  const InfoPokemonDetail(
-      {required this.id,
-      required this.name,
-      required this.weight,
-      required this.height,
-      required this.baseExperience,
-      required this.abilities,
-      required this.types,
-      required this.stats});
+  const PokemonDetailModel({
+    required this.id,
+    required this.name,
+    required this.weight,
+    required this.height,
+    required this.baseExperience,
+    required this.abilities,
+    required this.types,
+    required this.stats,
+    required this.spriteBackDefault,
+    required this.spriteFrontDefault,
+  });
 
-  factory InfoPokemonDetail.fromJson(Map<String, dynamic> json) {
-    return InfoPokemonDetail(
-      name: json['name'],
-      id: json['id'],
-      height: json['height'],
-      weight: json['weight'],
-      baseExperience: json['base_experience'],
-      abilities: List<Map<String, dynamic>>.from(json['abilities'])
-          .map((e) => Abilities.fromJson(e))
-          .toList(),
-      types: List<Map<String, dynamic>>.from(json['types'])
-          .map((e) => Types.fromJson(e))
-          .toList(),
-      stats: List<Map<String, dynamic>>.from(json['stats'])
-          .map((e) => Stats.fromJson(e))
-          .toList(),
-    );
+  factory PokemonDetailModel.fromJson(Map<String, dynamic> json) {
+    return PokemonDetailModel(
+        name: json['name'],
+        id: json['id'],
+        height: json['height'],
+        weight: json['weight'],
+        baseExperience: json['base_experience'],
+        abilities: List<Map<String, dynamic>>.from(json['abilities'])
+            .map((e) => Abilities.fromJson(e))
+            .toList(),
+        types: List<Map<String, dynamic>>.from(json['types'])
+            .map((e) => Types.fromJson(e))
+            .toList(),
+        stats: List<Map<String, dynamic>>.from(json['stats'])
+            .map((e) => Stats.fromJson(e))
+            .toList(),
+        spriteBackDefault: json['sprites']['back_default'],
+        spriteFrontDefault: json['sprites']['front_default']);
   }
 }
 

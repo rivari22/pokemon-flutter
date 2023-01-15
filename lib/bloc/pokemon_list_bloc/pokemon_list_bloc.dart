@@ -9,9 +9,9 @@ class PokemonListBloc extends Bloc<PokemonListEvent, PokemonListState> {
   PokemonListBloc() : super(PokemonListInitial()) {
     on<GetPokemonListEvent>((event, emit) async {
       emit(PokemonListLoading());
+      print('called');
       final response = await fetchPokemons();
       emit(PokemonListSuccess(response));
-      // emit(ProductSuccess(products: productFromJson(response.body)));
     });
   }
 }
