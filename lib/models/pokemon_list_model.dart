@@ -27,10 +27,13 @@ class ListPokemonModel {
   final String name;
   final String url;
   final String id;
-  final bool? isCaught;
+  final bool isCaught;
 
   ListPokemonModel(
-      {required this.name, required this.url, required this.id, this.isCaught});
+      {required this.name,
+      required this.url,
+      required this.id,
+      required this.isCaught});
 
   factory ListPokemonModel.fromJson(Map<String, dynamic> json) {
     var splitItem = json['url'].toString().split("/");
