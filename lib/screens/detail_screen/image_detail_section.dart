@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +16,38 @@ class ImageDetailSection extends StatelessWidget {
 
   final DetailPage widget;
   late List<Types> types;
+
+  void _handleTapPokemon(BuildContext context) {
+    if (widget.isPokemonCaught) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Successfully release pokemon"),
+        ),
+      );
+      context.read<PokemonListBloc>().add(SetPokemonCatch(id: widget.id));
+      Navigator.pop(context);
+      return;
+    }
+
+    Random random = Random();
+    int randomNumber = random.nextInt(10);
+    bool isCaught = randomNumber > 5;
+    if (isCaught) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Congratulation, you got it"),
+        ),
+      );
+      context.read<PokemonListBloc>().add(SetPokemonCatch(id: widget.id));
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to catch, you can try again"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +66,8 @@ class ImageDetailSection extends StatelessWidget {
               bottomLeft: Radius.circular(10.0),
               topLeft: Radius.circular(10.0),
             ),
-            // border: Border.all(
-            //     color: Colors.grey, style: BorderStyle.solid, width: 1.0),
             color: Color(getCustomColor(types[0].typeName, 'base')),
           ),
-          // child: Text("Test"),
           child: Image.network(
             "$urlImagesPokemon${widget.id}.png",
             alignment: Alignment.center,
@@ -45,26 +76,42 @@ class ImageDetailSection extends StatelessWidget {
         BlocBuilder<PokemonListBloc, PokemonListState>(
           builder: (context, state) {
             if (state is PokemonListSuccess) {
-              bool isCaught =
-                  state.dataPokemonList.listPokemon[widget.index].isCaught;
-              if (isCaught == true) {
-                return Container();
-              }
               return Positioned(
-                bottom: 20,
+                bottom: 10,
                 child: TextButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.catching_pokemon,
-                        color: Colors.red,
+                  onPressed: () {
+                    _handleTapPokemon(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Color(
+                        getCustomColor(types[0].typeName, 'background'),
                       ),
-                      Text(
-                        "Catch Pokemon",
-                        style: TextStyle(color: Colors.redAccent),
-                      )
-                    ],
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                        topLeft: Radius.circular(10.0),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.catching_pokemon,
+                          color: Colors.red,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          widget.isPokemonCaught
+                              ? "Release Pokemon"
+                              : "Catch Pokemon",
+                          style: const TextStyle(color: Colors.black),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );

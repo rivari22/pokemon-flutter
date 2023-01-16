@@ -8,10 +8,15 @@ import '../../models/pokemon_detail_model.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage(
-      {super.key, required this.id, required this.index, required this.name});
+      {super.key,
+      required this.id,
+      required this.index,
+      required this.name,
+      required this.isPokemonCaught});
   final int index;
-  final String id;
+  final int id;
   final String name;
+  final bool isPokemonCaught;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -22,7 +27,6 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   void initState() {
-    // getProductDetail();
     futurePokemonDetail = fetchPokemonDetail(widget.id.toString());
     super.initState();
   }
