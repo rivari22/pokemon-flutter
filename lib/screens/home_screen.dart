@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pokedex/bloc/pokemon_list_bloc/pokemon_list_bloc.dart';
 
 import 'package:pokedex/constants/index.dart';
@@ -23,6 +24,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  final PagingController<int, List<ListPokemonModel>> _pagingController =
+      PagingController(firstPageKey: 0);
+
   int _selectedIndex = 0;
 
   late final List<Widget> _widgetOptions = <Widget>[
@@ -34,10 +38,10 @@ class _HomePageState extends State<HomePage> {
 
         if (state is PokemonListSuccess) {
           return ListPokemonWidget(
-            listPokemon: state.dataPokemonList.listPokemon,
-            handleTap: _handleTap,
-            isPokemonCaughtTab: false,
-          );
+              listPokemon: state.dataPokemonList.listPokemon,
+              handleTap: _handleTap,
+              isPokemonCaughtTab: false,
+              pagingController: _pagingController);
         }
 
         return Container();
@@ -50,10 +54,10 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: Text("Kosong"));
           }
           return ListPokemonWidget(
-            listPokemon: state.dataPokemonListCaught,
-            handleTap: _handleTap,
-            isPokemonCaughtTab: true,
-          );
+              listPokemon: state.dataPokemonListCaught,
+              handleTap: _handleTap,
+              isPokemonCaughtTab: true,
+              pagingController: _pagingController);
         }
 
         return Container();
@@ -98,78 +102,95 @@ class ListPokemonWidget extends StatelessWidget {
       {Key? key,
       required this.listPokemon,
       required this.handleTap,
-      required this.isPokemonCaughtTab})
+      required this.isPokemonCaughtTab,
+      required this.pagingController})
       : super(key: key);
 
   final void Function(int, int, String, bool) handleTap;
   final List<ListPokemonModel> listPokemon;
   final bool isPokemonCaughtTab;
+  final PagingController<int, List<ListPokemonModel>> pagingController;
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: listPokemon.length,
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            handleTap(listPokemon[index].id, index, listPokemon[index].name,
-                listPokemon[index].isCaught);
-          },
-          child: Stack(
-            children: [
-              Card(
-                semanticContainer: true,
-                borderOnForeground: true,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.network(
-                      "$urlImagesPokemon${listPokemon[index].id}.png",
-                      width: 60,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+    return PagedGridView(
+        showNewPageProgressIndicatorAsGridChild: false,
+        showNewPageErrorIndicatorAsGridChild: false,
+        showNoMoreItemsIndicatorAsGridChild: false,
+        pagingController: pagingController,
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 100 / 150,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisCount: 2,
+        ),
+        builderDelegate: PagedChildBuilderDelegate<List<ListPokemonModel>>(
+          itemBuilder: (context, item, index) {
+            print(listPokemon);
+            print(context);
+            print(item);
+            print(index);
+            return GestureDetector(
+              onTap: () {
+                handleTap(listPokemon[index].id, index, listPokemon[index].name,
+                    listPokemon[index].isCaught);
+              },
+              child: Stack(
+                children: [
+                  Card(
+                    semanticContainer: true,
+                    borderOnForeground: true,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          listPokemon[index].name,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15.0),
+                        Image.network(
+                          "$urlImagesPokemon${listPokemon[index].id}.png",
+                          width: 60,
                         ),
-                        Text(
-                          "0${listPokemon[index].id}",
-                          style: const TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w300),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              listPokemon[index].name,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15.0),
+                            ),
+                            Text(
+                              "0${listPokemon[index].id}",
+                              style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  isPokemonCaughtTab
+                      ? Positioned(
+                          right: 5,
+                          top: 6,
+                          child: GestureDetector(
+                            onTap: () {
+                              context.read<PokemonListBloc>().add(
+                                  SetPokemonCatch(id: listPokemon[index].id));
+                            },
+                            child: const Icon(Icons.highlight_remove),
+                          ),
+                        )
+                      : Container(),
+                ],
               ),
-              isPokemonCaughtTab
-                  ? Positioned(
-                      right: 5,
-                      top: 6,
-                      child: GestureDetector(
-                        onTap: () {
-                          context
-                              .read<PokemonListBloc>()
-                              .add(SetPokemonCatch(id: listPokemon[index].id));
-                        },
-                        child: const Icon(Icons.highlight_remove),
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
+            );
+          },
+        )
+
+        // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //   crossAxisCount: 2,
+        //   childAspectRatio: 2,
+        // ),
         );
-      },
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 2,
-      ),
-    );
   }
 }
