@@ -8,5 +8,7 @@ class PokemonListLoading extends PokemonListState {}
 
 class PokemonListSuccess extends PokemonListState {
   final PokemonListModel dataPokemonList;
-  PokemonListSuccess(this.dataPokemonList);
+  List<ListPokemonModel> dataPokemonListCaught;
+  PokemonListSuccess(
+      {required this.dataPokemonList, required this.dataPokemonListCaught});
 }
