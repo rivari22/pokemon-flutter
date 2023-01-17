@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/bloc/pokemon_list_bloc/pokemon_list_bloc.dart';
 
+import 'package:pokedex/screens/detail_screen/detail_screen.dart';
 import 'package:pokedex/screens/home_screen/home_screen.dart';
 
 void main() {
@@ -18,10 +19,17 @@ class MyApp extends StatelessWidget {
       create: (context) =>
           PokemonListBloc()..add(GetPokemonListEvent(offset: 0)),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const HomePage(),
+        initialRoute: "/",
+        routes: {
+          "/": (context) => const HomeScreen(),
+          "/detail": (context) => DetailScreen(
+              detailProps:
+                  ModalRoute.of(context)?.settings.arguments as DetailProps)
+        },
       ),
     );
   }
