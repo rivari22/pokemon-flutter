@@ -1,12 +1,12 @@
 class PokemonListModel {
-  final int count;
-  final String? next;
-  final String? previous;
+  int count;
+  String? next;
+  String? previous;
 
   // list
-  final List<ListPokemonModel> listPokemon;
+  List<ListPokemonModel> listPokemon;
 
-  const PokemonListModel({
+  PokemonListModel({
     required this.count,
     this.next,
     this.previous,

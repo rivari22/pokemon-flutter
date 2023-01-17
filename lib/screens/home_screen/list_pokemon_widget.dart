@@ -1,116 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/bloc/pokemon_list_bloc/pokemon_list_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pokedex/constants/index.dart';
 import 'package:pokedex/models/pokemon_list_model.dart';
-import 'package:pokedex/screens/detail_screen/detail_screen.dart';
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  void _handleTap(int id, int index, String name, bool isPokemonCaught) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => DetailPage(
-            id: id, index: index, name: name, isPokemonCaught: isPokemonCaught),
-      ),
-    );
-  }
-
-  int _selectedIndex = 0;
-
-  late final List<Widget> _widgetOptions = <Widget>[
-    BlocBuilder<PokemonListBloc, PokemonListState>(
-      builder: (context, state) {
-        if (state is PokemonListLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (state is PokemonListSuccess) {
-          return ListPokemonWidget(
-            listPokemon: state.dataPokemonList.listPokemon,
-            handleTap: _handleTap,
-            isPokemonCaughtTab: false,
-          );
-        }
-
-        return Container();
-      },
-    ),
-    BlocBuilder<PokemonListBloc, PokemonListState>(
-      builder: (context, state) {
-        if (state is PokemonListSuccess) {
-          if (state.dataPokemonListCaught.isEmpty) {
-            return const Center(child: Text("Kosong"));
-          }
-          return ListPokemonWidget(
-            listPokemon: state.dataPokemonListCaught,
-            handleTap: _handleTap,
-            isPokemonCaughtTab: true,
-          );
-        }
-
-        return Container();
-      },
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('List Pokemon'),
-      ),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Pokemon',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Pokemon Caught',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
 
 class ListPokemonWidget extends StatelessWidget {
   const ListPokemonWidget(
       {Key? key,
       required this.listPokemon,
       required this.handleTap,
-      required this.isPokemonCaughtTab})
+      required this.isPokemonCaughtTab,
+      required this.scrollController,
+      required this.hasReachMaxItem})
       : super(key: key);
 
   final void Function(int, int, String, bool) handleTap;
   final List<ListPokemonModel> listPokemon;
   final bool isPokemonCaughtTab;
+  final ScrollController scrollController;
+  final bool hasReachMaxItem;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: listPokemon.length,
+      itemCount: hasReachMaxItem ? listPokemon.length : listPokemon.length + 2,
+      controller: scrollController,
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
       itemBuilder: (context, index) {
+        if (index >= listPokemon.length) {
+          return const Center(
+            child: LinearProgressIndicator(),
+          );
+        }
+
         return GestureDetector(
           onTap: () {
             handleTap(listPokemon[index].id, index, listPokemon[index].name,

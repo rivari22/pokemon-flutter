@@ -10,10 +10,8 @@ class DetailPage extends StatefulWidget {
   const DetailPage(
       {super.key,
       required this.id,
-      required this.index,
       required this.name,
       required this.isPokemonCaught});
-  final int index;
   final int id;
   final String name;
   final bool isPokemonCaught;
