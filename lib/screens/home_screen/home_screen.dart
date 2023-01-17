@@ -5,14 +5,14 @@ import 'package:pokedex/bloc/pokemon_list_bloc/pokemon_list_bloc.dart';
 import 'package:pokedex/screens/detail_screen/detail_screen.dart';
 import 'package:pokedex/screens/home_screen/list_pokemon_widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   late PokemonListBloc _pokemonListBloc;
 
   final _scrollController = ScrollController();
@@ -28,12 +28,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _handleTap(int id, int index, String name, bool isPokemonCaught) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) =>
-            DetailPage(id: id, name: name, isPokemonCaught: isPokemonCaught),
-      ),
-    );
+    Navigator.pushNamed(context, "/detail",
+        arguments:
+            DetailProps(id: id, isPokemonCaught: isPokemonCaught, name: name));
   }
 
   void _onItemTapped(int index) {
@@ -77,7 +74,9 @@ class _HomePageState extends State<HomePage> {
           );
         }
 
-        return Container();
+        return const Center(
+          child: Text("Error, No data"),
+        );
       },
     ),
   ];

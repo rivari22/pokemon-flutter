@@ -6,26 +6,29 @@ import 'package:pokedex/screens/detail_screen/tabbar_detail_section.dart';
 import '../../constants/custom_color.dart';
 import '../../models/pokemon_detail_model.dart';
 
-class DetailPage extends StatefulWidget {
-  const DetailPage(
-      {super.key,
-      required this.id,
-      required this.name,
-      required this.isPokemonCaught});
+class DetailProps {
   final int id;
   final String name;
   final bool isPokemonCaught;
 
-  @override
-  State<DetailPage> createState() => _DetailPageState();
+  const DetailProps(
+      {required this.id, required this.name, required this.isPokemonCaught});
 }
 
-class _DetailPageState extends State<DetailPage> {
+class DetailScreen extends StatefulWidget {
+  const DetailScreen({super.key, required this.detailProps});
+  final DetailProps detailProps;
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
   late Future<PokemonDetailModel> futurePokemonDetail;
 
   @override
   void initState() {
-    futurePokemonDetail = fetchPokemonDetail(widget.id.toString());
+    futurePokemonDetail = fetchPokemonDetail(widget.detailProps.id.toString());
     super.initState();
   }
 
@@ -33,7 +36,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
+        title: Text(widget.detailProps.name),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
@@ -59,6 +62,12 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ],
                 ),
+              );
+            }
+
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text("Error, No data"),
               );
             }
 
