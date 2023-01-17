@@ -59,20 +59,11 @@ class TabBarDetail extends StatelessWidget {
                   Color(getCustomColor(dataPokemon.types[0].typeName, 'base'))),
           child: TabBarView(children: [
             Container(
-              padding: const EdgeInsets.only(
-                  left: 10.0,
-                  right: 10.0,
-                  top: 10.0,
-                  bottom: 10.0), // should edit
+              padding: const EdgeInsets.all(10.0),
               margin: const EdgeInsets.only(
                   left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                  topLeft: Radius.circular(10.0),
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 border: Border.all(
                     color: Colors.grey, style: BorderStyle.solid, width: 1.0),
                 color: Color(getCustomColor(
