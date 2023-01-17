@@ -1,6 +1,8 @@
-# pokedex
+# pokedex android
 
-A new Flutter project.
+A new Flutter project. for android
+
+## NOTES: This app will work 100% on android
 
 ## Progress and preview
 
@@ -16,7 +18,7 @@ A new Flutter project.
 ![Screenshot_1673878190](https://user-images.githubusercontent.com/54411969/212701169-8d74be7e-86da-4fbd-9857-47fdf71e376c.png)
 ![Screenshot_1673878196](https://user-images.githubusercontent.com/54411969/212701171-cd2edd73-9897-4ddc-bed0-a44830420dca.png)
 
-## Selasa: create routes, refactor, and finishing
+## Selasa: create infinite scroll, routes, refactor, and finishing
 ![image](https://user-images.githubusercontent.com/54411969/212959387-04b5a787-62f3-4674-a043-dfbcd814cbe6.png)
 
 
