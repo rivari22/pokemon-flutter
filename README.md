@@ -2,25 +2,23 @@
 
 A new Flutter project.
 
-## Progress
+## Progress and preview
 
 ## Rabu: feature (List All Animals), init, install, how to fetch api -> DONE USING STATEFULL WIDGET and HTTPS REST API
 ![image](https://user-images.githubusercontent.com/54411969/211836143-1a98ae2c-b8b3-4310-a764-86ef48f2eab7.png)
 </br>
-## on hold krn ngerjain project react native dulu
+# on hold krn ngerjain project react native dulu
 ## Minggu: (Detail Animals), slicing, fetch api, integration bloc state management
 ![Screenshot_1673728478](https://user-images.githubusercontent.com/54411969/212701146-bf71cc6f-62aa-4a6f-8a6b-d196e821048b.png)
 
-</br>
-</br>
-Senin: feature (Catch Animals with random function logic), (List All Animals yang dimiliki) , (Delete Animals yang dimiliki)
+## Senin: feature (Catch Animals with random function logic), (List All Animals yang dimiliki) , (Delete Animals yang dimiliki)
 ![Screenshot_1673878155](https://user-images.githubusercontent.com/54411969/212701164-f6c98747-a4fe-4716-b153-62ad498f4954.png)
 ![Screenshot_1673878190](https://user-images.githubusercontent.com/54411969/212701169-8d74be7e-86da-4fbd-9857-47fdf71e376c.png)
 ![Screenshot_1673878196](https://user-images.githubusercontent.com/54411969/212701171-cd2edd73-9897-4ddc-bed0-a44830420dca.png)
 
-</br>
-</br>
-Selasa: refactor, and finishing
+## Selasa: create routes, refactor, and finishing
+![image](https://user-images.githubusercontent.com/54411969/212959387-04b5a787-62f3-4674-a043-dfbcd814cbe6.png)
+
 
 ## Getting Started
 
